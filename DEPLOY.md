@@ -1,3 +1,4 @@
+1. Deploy to Azure
 | **Name**                         | **Value**                                 |
 |----------------------------------|-------------------------------------------|
 | **Subscription**                 | add95dae-484b-4544-ab56-34d373a7b80b       |
@@ -29,3 +30,20 @@
 | **Database Password**            | ****************                           |
 | **Virtual Network**              | vnet-wckfblez (10.0.0.0/16)                |
 | **Outbound Subnet**              | subnet-qkbtyyoj (10.0.1.0/24)              |
+
+2. **Set the startup command in the portal**
+Settings -> Configuration -> Startup Command
+gunicorn -w 2 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000 main:app
+
+
+2. **Apply Access Restrictions (IP Whitelisting)**
+Go to App Service > Networking > Access Restrictions.
+Add rules to allow only your IP or your organization's IP range.
+Once a rule is added, all other traffic is implicitly denied.
+
+3. **Enable Authentication (Easy Auth)**
+Go to App Service > Authentication.
+Add an identity provider (e.g., Microsoft, GitHub, Google).
+Set Unauthenticated requests to:
+Log in with... (to redirect to login), or
+HTTP 401 (to block unauthenticated users).
